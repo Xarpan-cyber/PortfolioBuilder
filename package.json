@@ -1,16 +1,28 @@
 {
-  "name": "portfolio-deployment",
+  "name": "portfolio-builder",
   "version": "1.0.0",
-  "description": "Root package.json for Railway deployment",
+  "description": "",
+  "main": "backend/server.js",
   "scripts": {
-    "postinstall": "cd \"End s6\" && npm install",
-    "start": "cd \"End s6\" && npm start"
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "check": "node --check backend/server.js && node --check backend/routes/auth.js && node --check backend/routes/portfolio.js && node --check backend/routes/public.js"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
   "engines": {
     "node": "20.x"
   },
   "dependencies": {
-    "crypto": "^1.0.1",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.9.3",
+    "multer": "^2.2.0",
     "nodemailer": "^9.0.5"
   }
 }
