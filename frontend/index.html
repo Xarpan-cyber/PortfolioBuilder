@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PortfolioBuilder | Create & Publish Your Custom Portfolio Website</title>
+  <link rel="icon" type="image/jpeg" href="/assets/download.jpeg">
+
+  <!-- FontAwesome for UI & Social Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+
+  <!-- JSZip & FileSaver for Client-side Portfolio Folder Exporting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+  <!-- Chart.js for beautiful analytics widgets -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Primary Builder Stylesheet -->
+  <link rel="stylesheet" href="/app.css?v=3">
+</head>
+
+<body>
+
+  <!-- ==================== VIEW 1: PUBLIC MARKETING SIDE ==================== -->
+  <div id="landing-view" class="app-view active">
+    <!-- Header Nav -->
+    <header class="marketing-header">
+      <div class="logo-container">
+        <img src="/assets/download.jpeg" alt="Logo" style="height: 28px; width: auto; border-radius: 4px;">
+        <span>Portfolio<span class="logo-text-glow">Builder</span></span>
+      </div>
+      <nav class="marketing-nav">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#templates" class="nav-link">Templates</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="#showcase" class="nav-link">Showcase</a>
+      </nav>
+      <div id="nav-auth-section" style="display:flex; gap:15px; align-items:center;">
+        <a href="#" class="nav-link" onclick="showAuthPanel('login')">Log In</a>
+        <button class="btn btn-primary btn-start">Build for Free</button>
+      </div>
+    </header>
+
+    <div class="marketing-content">
+      <!-- Hero Section -->
+      <section class="section-hero">
+        <div class="hero-tagline">✨ Notion + Canva hybrid for builders</div>
+        <h1 class="hero-title">Publish a stunning personal portfolio in <span class="text-gradient">10 minutes</span>
+        </h1>
+        <p class="hero-subtitle">Fill in your profile, projects, and achievements. Swap templates and tweak colors in
+          real-time. Share your custom link and get hired.</p>
+        <div class="hero-ctas">
+          <button class="btn btn-primary btn-start" style="padding: 14px 30px; font-size:1.1rem;"><i
+              class="fas fa-rocket"></i> Get Started Free</button>
+          <button class="btn btn-secondary" onclick="switchView('dashboard')"
+            style="padding: 14px 30px; font-size:1.1rem;"><i class="fas fa-play"></i> Try Demo</button>
+        </div>
+
+        <!-- Interactive Editor Preview Mockup -->
+        <div class="hero-preview">
+          <div class="preview-bar">
+            <div class="preview-dot red"></div>
+            <div class="preview-dot yellow"></div>
+            <div class="preview-dot green"></div>
+            <div class="preview-url">app.portfoliobuilder.com/editor</div>
+          </div>
+          <div class="preview-body"
+            style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200'); background-size: cover; background-position: top center; filter: brightness(0.9);">
+            <div
+              style="position:absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(rgba(9,13,22,0.4) 0%, rgba(9,13,22,0.95) 100%); display:flex; align-items:flex-end; padding:40px; text-align:left;">
+              <div>
+                <span class="pricing-badge" style="position:static; margin-bottom:15px;">Real-time Simulator</span>
+                <h3 style="font-size:1.8rem; font-weight:800; color:#fff; margin-bottom:8px;">Interactive Sidebar Layout
+                </h3>
+                <p class="pf-text-muted" style="max-width:500px;">Control projects showcase, skill tags, timeline
+                  accomplishments, blogs CMS, services pricing, and domain configurations in a centralized modern
+                  dashboard.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Templates Gallery -->
+      <section class="section-features" id="templates"
+        style="background: rgba(255,255,255,0.01); border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color);">
+        <div class="section-header">
+          <h2>Premium Theme Layouts</h2>
+          <p>Choose from our hand-crafted, fully responsive layouts. Swap layouts anytime with one-click - your data
+            stays intact.</p>
+        </div>
+        <div class="template-grid-marketing">
+          <div class="template-card" onclick="showAuthPanel('signup')">
+            <div class="template-card-img"
+              style="background-color: #0b0f19; background-image: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), rgba(0,0,0,0) 40%); display:flex; align-items:center; justify-content:center; color:#6366f1; font-size:3rem;">
+              <i class="fas fa-terminal"></i>
+            </div>
+            <div class="template-card-info">
+              <div class="template-card-name">Developer / Tech</div>
+              <div class="template-card-desc">Monospaced font, terminal accents, and structured technical tables.
+                Perfect for software developers and QA testers.</div>
+            </div>
+          </div>
+          <div class="template-card" onclick="showAuthPanel('signup')">
+            <div class="template-card-img"
+              style="background-color: #0b0f19; background-image: radial-gradient(circle at top right, rgba(168, 85, 247, 0.15), rgba(0,0,0,0) 50%); display:flex; align-items:center; justify-content:center; color:#a855f7; font-size:3rem;">
+              <i class="fas fa-palette"></i>
+            </div>
+            <div class="template-card-info">
+              <div class="template-card-name">Creative Designer</div>
+              <div class="template-card-desc">Bold dynamic font scales, artistic spacing, and glassmorphic card
+                overlays. Optimized for UI/UX builders.</div>
+            </div>
+          </div>
+          <div class="template-card" onclick="showAuthPanel('signup')">
+            <div class="template-card-img"
+              style="background-color: #fcfbf7; display:flex; align-items:center; justify-content:center; color:#1c1c1c; font-size:3rem;">
+              <i class="fas fa-font"></i>
+            </div>
+            <div class="template-card-info">
+              <div class="template-card-name">Minimalist Writer</div>
+              <div class="template-card-desc">Large clean serif headlines, generous borders spacing, and focus on clean
+                reading flow. Perfect for copywriters and authors.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Breakdown -->
+      <section class="section-features" id="features">
+        <div class="section-header">
+          <h2>Engineered for Growth</h2>
+          <p>Everything you need to showcase your skills, land high-paying contracts, or share your developer journey.
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-box">
+            <div class="feature-icon"><i class="fas fa-sliders-h"></i></div>
+            <h3>Real-time Builder</h3>
+            <p>Customize primary layout scales, colors, buttons radius, and typography options. See preview changes
+              immediately.</p>
+          </div>
+          <div class="feature-box">
+            <div class="feature-icon"><i class="fas fa-link"></i></div>
+            <h3>Custom Domain connection</h3>
+            <p>Publish on a free subdomain or connect your own domain (CNAME steps). Free automated SSL configuration.
+            </p>
+          </div>
+          <div class="feature-box">
+            <div class="feature-icon"><i class="fas fa-chart-bar"></i></div>
+            <h3>Detailed Visitor Analytics</h3>
+            <p>Track site visitors unique counts, project link click rates, geographic charts, and inbox messages over
+              time.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing Plans -->
+      <section class="section-pricing" id="pricing">
+        <div class="section-header">
+          <h2>Pricing Plans</h2>
+          <p>Start for free, upgrade when you need custom domain integrations or deep visitor tracking.</p>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="pricing-title">Free Plan</div>
+            <div class="pricing-price">$0<span>/forever</span></div>
+            <ul class="pricing-features">
+              <li><i class="fas fa-check"></i> Standard Portfolio subdomain</li>
+              <li><i class="fas fa-check"></i> Access to all 3 visual layouts</li>
+              <li><i class="fas fa-check"></i> Unlimited Project showcase</li>
+              <li><i class="fas fa-check"></i> Basic Visitor counter</li>
+            </ul>
+            <button class="btn btn-secondary btn-start">Get Started</button>
+          </div>
+          <div class="pricing-card premium">
+            <div class="pricing-badge">Recommended</div>
+            <div class="pricing-title">Pro Tier</div>
+            <div class="pricing-price">$8<span>/monthly</span></div>
+            <ul class="pricing-features">
+              <li><i class="fas fa-check"></i> Everything in Free</li>
+              <li><i class="fas fa-check"></i> Connect custom Domain (CNAME)</li>
+              <li><i class="fas fa-check"></i> Star click-through project graphs</li>
+              <li><i class="fas fa-check"></i> Advanced analytics charts</li>
+              <li><i class="fas fa-check"></i> Remove Platform branding</li>
+            </ul>
+            <button class="btn btn-primary btn-start">Go Pro Free Trial</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Marketing Footer -->
+    <footer class="marketing-footer">
+      <div class="footer-col">
+        <div class="logo-container" style="font-size: 1.25rem;">
+          <img src="/assets/download.jpeg" alt="Logo" style="height: 28px; width: auto; border-radius: 4px;">
+          <span>Portfolio<span class="logo-text-glow">Builder</span></span>
+        </div>
+        <p class="footer-desc">Professional portfolio-builder platform tailored for developers, freelancers, and
+          designers.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul class="footer-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#templates">Templates</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact Support</a></li>
+          <li><a href="#">Terms & Privacy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+          <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+          <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+        </ul>
+      </div>
+    </footer>
+    <div class="footer-bottom">&copy; 2026 PortfolioBuilder. Designed and scaffolded for Pair-Programming demo.</div>
+  </div>
+
+
+    <!-- ==================== VIEW 2: AUTHENTICATION FLOW ==================== -->
+    <div id="auth-view" class="app-view auth-container">
+      <div class="auth-card animated-slideup">
+        <div class="auth-header">
+          <h2 id="auth-card-title">Create an account</h2>
+          <p id="auth-card-subtitle">Start building your professional portfolio today.</p>
+        </div>
+        <form id="auth-form">
+          <div class="form-group" id="auth-name-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="auth-name" class="form-input" placeholder="Your Full Name" />
+          </div>
+          <div class="form-group" id="auth-email-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="auth-email" class="form-input" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group" id="auth-pass-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="auth-pass" class="form-input" placeholder="••••••••" required />
+          </div>
+          <div class="form-group" id="auth-otp-group" style="display:none;">
+            <label class="form-label">OTP Verification Code</label>
+            <input type="text" id="auth-otp" class="form-input" placeholder="1234" />
+          </div>
+          <div class="form-row">
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+              <input type="checkbox" style="width:16px; height:16px;" checked />
+              Remember me
+            </label>
+            <a href="#" onclick="showAuthPanel('forgot')" style="color:var(--primary-color);">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn btn-primary" id="auth-submit-btn" style="width:100%; margin-bottom:15px;">Sign
+            Up</button>
+        </form>
+
+      <div class="oauth-divider">or continue with</div>
+
+      <div class="oauth-buttons">
+        <button class="btn-oauth" onclick="document.getElementById('auth-form').dispatchEvent(new Event('submit'))"><i
+            class="fab fa-github"></i> GitHub</button>
+        <button class="btn-oauth" onclick="document.getElementById('auth-form').dispatchEvent(new Event('submit'))"><i
+            class="fab fa-google"></i> Google</button>
+      </div>
+
+      <div id="auth-toggle-link"
+        style="text-align:center; font-size:0.85rem; margin-top:30px; color:var(--text-muted);">
+        Already have an account? <a href="#" onclick="showAuthPanel('login')" style="color:var(--primary-color);">Log
+          in</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== VIEW 3: ONBOARDING STEPPER WIZARD ==================== -->
+  <div id="onboarding-view" class="app-view onboarding-container">
+    <div class="onboarding-steps">
+      <div class="step-progress-fill"></div>
+      <div class="onboarding-step active">
+        <div class="step-num">1</div>
+        <div class="step-title">Template</div>
+      </div>
+      <div class="onboarding-step">
+        <div class="step-num">2</div>
+        <div class="step-title">Profile</div>
+      </div>
+      <div class="onboarding-step">
+        <div class="step-num">3</div>
+        <div class="step-title">Theme</div>
+      </div>
+      <div class="onboarding-step">
+        <div class="step-num">4</div>
+        <div class="step-title">Finish</div>
+      </div>
+    </div>
+
+    <div class="onboarding-card animated-slideup">
+      <!-- Onboarding Step 1: Layout Selection -->
+      <div class="onboarding-screen active" data-step="1">
+        <h3 style="font-size:1.5rem; margin-bottom:8px;">Choose a Base Template</h3>
+        <p class="pf-text-muted" style="margin-bottom:24px;">This sets your starting page layout. You can change this at
+          any time later in the dashboard.</p>
+        <div class="template-picker-grid">
+          <div class="template-pick selected" data-val="developer">
+            <div class="template-pick-img"
+              style="background-image: url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80&w=400');">
+            </div>
+            <div class="template-pick-title">Developer / Tech</div>
+          </div>
+          <div class="template-pick" data-val="designer">
+            <div class="template-pick-img"
+              style="background-image: url('https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=400');">
+            </div>
+            <div class="template-pick-title">Creative Designer</div>
+          </div>
+          <div class="template-pick" data-val="minimalist">
+            <div class="template-pick-img"
+              style="background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=400');">
+            </div>
+            <div class="template-pick-title">Minimalist Writer</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Onboarding Step 2: Personal Details -->
+      <div class="onboarding-screen" data-step="2">
+        <h3 style="font-size:1.5rem; margin-bottom:8px;">Personal Information</h3>
+        <p class="pf-text-muted" style="margin-bottom:24px;">Tell us a bit about yourself to generate the initial
+          headings.</p>
+        <div style="display:flex; flex-direction:column; gap:20px;">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="ob-name" class="form-input" placeholder="Your Full Name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Profession / Role</label>
+            <input type="text" id="ob-profession" class="form-input" placeholder="Senior Frontend Engineer"
+              value="Senior Frontend Engineer" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">One-line Tagline / Mission</label>
+            <input type="text" id="ob-tagline" class="form-input"
+              placeholder="Building premium web apps with high-performance styling..."
+              value="Crafting premium web applications from concept to deployment." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Onboarding Step 3: Color Palette Selection -->
+      <div class="onboarding-screen" data-step="3">
+        <h3 style="font-size:1.5rem; margin-bottom:8px;">Select a Color Theme</h3>
+        <p class="pf-text-muted" style="margin-bottom:24px;">These colors dictate your background, gradients, links, and
+          buttons.</p>
+        <div class="theme-picker-grid">
+          <div class="theme-palette-btn selected" data-val="indigo">
+            <div class="theme-colors-row">
+              <div class="theme-color-dot" style="background:#6366f1;"></div>
+              <div class="theme-color-dot" style="background:#a855f7;"></div>
+              <div class="theme-color-dot" style="background:#0b0f19;"></div>
+            </div>
+            <div class="theme-palette-name">Indigo Glow</div>
+          </div>
+          <div class="theme-palette-btn" data-val="cyan">
+            <div class="theme-colors-row">
+              <div class="theme-color-dot" style="background:#06b6d4;"></div>
+              <div class="theme-color-dot" style="background:#3b82f6;"></div>
+              <div class="theme-color-dot" style="background:#080e1a;"></div>
+            </div>
+            <div class="theme-palette-name">Cool Cyan</div>
+          </div>
+          <div class="theme-palette-btn" data-val="sunset">
+            <div class="theme-colors-row">
+              <div class="theme-color-dot" style="background:#f43f5e;"></div>
+              <div class="theme-color-dot" style="background:#fb923c;"></div>
+              <div class="theme-color-dot" style="background:#0f0b11;"></div>
+            </div>
+            <div class="theme-palette-name">Sunset Sunset</div>
+          </div>
+          <div class="theme-palette-btn" data-val="light">
+            <div class="theme-colors-row">
+              <div class="theme-color-dot" style="background:#1c1c1c;"></div>
+              <div class="theme-color-dot" style="background:#666666;"></div>
+              <div class="theme-color-dot" style="background:#fcfbf7;"></div>
+            </div>
+            <div class="theme-palette-name">Light Theme</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Onboarding Step 4: Wizard Confirmation -->
+      <div class="onboarding-screen" data-step="4">
+        <h3 style="font-size:1.5rem; margin-bottom:8px;">Ready to generate?</h3>
+        <p class="pf-text-muted" style="margin-bottom:24px;">Your basic configurations are recorded. Let's launch your
+          portfolio editor dashboard.</p>
+        <div
+          style="background:rgba(255,255,255,0.02); border:1px solid var(--border-color); padding:20px; border-radius:var(--radius-md); display:flex; flex-direction:column; gap:12px;">
+          <div id="summary-template"></div>
+          <div id="summary-theme"></div>
+          <div id="summary-details"></div>
+        </div>
+      </div>
+
+      <!-- Wizard Buttons -->
+      <div class="onboarding-buttons">
+        <button class="btn btn-secondary" onclick="navigateWizard(-1)"><i class="fas fa-arrow-left"></i> Back</button>
+        <button class="btn btn-primary" onclick="navigateWizard(1)">Next <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== VIEW 4: CORE DASHBOARD PANEL (LOGGED IN) ==================== -->
+  <div id="dashboard-view" class="app-view dashboard-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="dash-sidebar">
+      <div class="dash-sidebar-header">
+        <div class="logo-container" style="font-size: 1.15rem;">
+          <img src="/assets/download.jpeg" alt="Logo" style="height: 24px; width: auto; border-radius: 4px;">
+          <span>Portfolio<span class="logo-text-glow" style="font-size:1.15rem;">Builder</span></span>
+        </div>
+      </div>
+
+      <ul class="dash-menu">
+        <li class="dash-menu-label">Main Core</li>
+        <li class="dash-menu-item active"><a href="#" class="dash-menu-link" data-tab="overview"><i
+              class="fas fa-home"></i> Dashboard Overview</a></li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="analytics"><i
+              class="fas fa-chart-line"></i> Analytics & Inbox</a></li>
+
+        <li class="dash-menu-label">Portfolio Content</li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="profile"><i class="fas fa-user"></i>
+            Profile Info</a></li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="education"><i
+              class="fas fa-graduation-cap"></i> Education Timeline</a></li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="experience"><i
+              class="fas fa-briefcase"></i> Experience Jobs</a></li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="skills"><i class="fas fa-tools"></i>
+            Skills Levels</a></li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="projects"><i
+              class="fas fa-folder-open"></i> Projects Grid</a></li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="services"><i
+              class="fas fa-hand-holding-usd"></i> Services & Hourly</a></li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="testimonials"><i
+              class="fas fa-star"></i> Testimonials Feedback</a></li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="blog"><i class="fas fa-edit"></i> Blog
+            mini CMS</a></li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="contact"><i
+              class="fas fa-address-book"></i> Contacts & Socials</a></li>
+
+        <li class="dash-menu-label">Layout Design</li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="appearance"><i
+              class="fas fa-palette"></i> Appearance Themes</a></li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="template"><i
+              class="fas fa-layer-group"></i> Switch Template</a></li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="domain"><i
+              class="fas fa-cloud-upload-alt"></i> Publish & Sync</a></li>
+
+        <li class="dash-menu-label">Options</li>
+        <li class="dash-menu-item"><a href="#" class="dash-menu-link" data-tab="settings"><i class="fas fa-cog"></i>
+            Settings Page</a></li>
+      </ul>
+
+      <!-- Sidebar User Footer -->
+      <div class="dash-sidebar-footer">
+        <div class="user-avatar-placeholder" id="user-avatar-init">AR</div>
+        <div class="user-details">
+          <div class="user-name" id="nav-user-name">Alex Rivera</div>
+          <div class="user-plan" id="nav-user-badge">Pro tier</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT CORE BLOCK -->
+    <main class="dash-main-container">
+      <!-- Dashboard Top Navbar -->
+      <nav class="dash-navbar">
+        <div style="font-weight:700; font-size:1.15rem; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <button class="btn btn-outline" onclick="switchView('published')"
+            style="padding: 6px 14px; font-size: 0.8rem;"><i class="fas fa-external-link-alt"></i> View My Live
+            Site</button>
+          <button class="btn btn-primary" onclick="downloadPortfolioZip()"
+            style="padding: 6px 14px; font-size: 0.8rem;"><i class="fas fa-file-archive"></i> Download Portfolio
+            (ZIP)</button>
+          <button class="btn btn-secondary" onclick="downloadStandaloneHTML()"
+            style="padding: 6px 14px; font-size: 0.8rem;"><i class="fas fa-download"></i> Download HTML</button>
+        </div>
+        <div class="navbar-actions">
+          <div class="theme-toggle" id="theme-toggle-btn"
+            style="cursor:pointer; display:flex; align-items:center; justify-content:center; width:35px; height:35px; border-radius:50%; transition:background-color 0.2s; margin-right: 10px;"
+            title="Toggle Light/Dark Theme">
+            <i class="fas fa-moon"></i>
+          </div>
+          <div class="notification-bell" onclick="switchDashboardTab('analytics')" style="animation: none;">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="user-menu-trigger" onclick="logout()" style="cursor:pointer;">
+            <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600;"><i
+                class="fas fa-sign-out-alt"></i> Exit App</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Split Layout (Left Forms Editor, Right Simulator Frame) -->
+      <div class="dash-editor-preview-container">
+
+        <!-- MAIN EDITOR SLIDER -->
+        <section class="dash-editor-pane">
+
+          <!-- SUB-PAGE 1: OVERVIEW DASHBOARD HOME -->
+          <div class="dash-page active" id="dash-page-overview">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Dashboard Overview</h2>
+              <p class="dash-page-subtitle">Configure credentials and view visitor interaction analytics.</p>
+            </div>
+
+            <!-- Setup completion progress -->
+            <div class="progress-bar-container">
+              <div class="progress-meta">
+                <span id="overview-progress-text">Your portfolio is 70% complete</span>
+                <span style="color:var(--primary-color);">Setup Status</span>
+              </div>
+              <div class="progress-bar-outer">
+                <div class="progress-bar-inner" id="overview-progress-bar"></div>
+              </div>
+            </div>
+
+            <!-- Quick Actions Cards -->
+            <h4 style="margin-bottom:15px;">Quick Actions</h4>
+            <div class="quick-actions-row">
+              <div class="quick-action-card" onclick="overviewQuickAction('projects')">
+                <div class="quick-action-icon"><i class="fas fa-folder-plus"></i></div>
+                <h4>Add Project</h4>
+              </div>
+              <div class="quick-action-card" onclick="overviewQuickAction('experience')">
+                <div class="quick-action-icon"><i class="fas fa-briefcase"></i></div>
+                <h4>Add Job</h4>
+              </div>
+              <div class="quick-action-card" onclick="overviewQuickAction('appearance')">
+                <div class="quick-action-icon"><i class="fas fa-palette"></i></div>
+                <h4>Change Colors</h4>
+              </div>
+            </div>
+
+            <!-- Simple stats counters -->
+            <h4 style="margin-bottom:15px;">Activity Highlights</h4>
+            <div class="stats-grid">
+              <div class="stat-box">
+                <div class="stat-label">Site Views</div>
+                <div class="stat-val" id="stat-views">1,420</div>
+                <div class="stat-trend up"><i class="fas fa-arrow-up"></i> +12%</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Project Clicks</div>
+                <div class="stat-val" id="stat-clicks">465</div>
+                <div class="stat-trend up"><i class="fas fa-arrow-up"></i> +8%</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Contact Messages</div>
+                <div class="stat-val" id="stat-messages">1</div>
+                <div class="stat-trend down"><i class="fas fa-minus"></i> Stable</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-PAGE 2: PROFILE -->
+          <div class="dash-page" id="dash-page-profile">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Personal Profile Details</h2>
+              <p class="dash-page-subtitle">Configure bio description, title, image, and geographic details.</p>
+            </div>
+            <div id="dash-page-profile-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 3: EDUCATION -->
+          <div class="dash-page" id="dash-page-education">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Education Records</h2>
+              <p class="dash-page-subtitle">Degree diplomas and university timeline items.</p>
+            </div>
+            <div id="dash-page-education-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 4: EXPERIENCE -->
+          <div class="dash-page" id="dash-page-experience">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Professional Experience</h2>
+              <p class="dash-page-subtitle">List jobs timeline records and key achievements.</p>
+            </div>
+            <div id="dash-page-experience-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 5: SKILLS -->
+          <div class="dash-page" id="dash-page-skills">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Skills & Competencies</h2>
+              <p class="dash-page-subtitle">Add grouped tags representing programming capabilities and levels.</p>
+            </div>
+            <div id="dash-page-skills-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 6: PROJECTS -->
+          <div class="dash-page" id="dash-page-projects">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Projects Showcase</h2>
+              <p class="dash-page-subtitle">Manage feature works grid containing cover cards, stacks, and Git codes
+                links.</p>
+            </div>
+            <div id="dash-page-projects-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 7: SERVICES -->
+          <div class="dash-page" id="dash-page-services">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Freelancer Services</h2>
+              <p class="dash-page-subtitle">Custom service tags for contract assignments and pricing metrics.</p>
+            </div>
+            <div id="dash-page-services-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 8: TESTIMONIALS -->
+          <div class="dash-page" id="dash-page-testimonials">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Client Testimonials</h2>
+              <p class="dash-page-subtitle">Recommend quote items validating your software achievements.</p>
+            </div>
+            <div id="dash-page-testimonials-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 9: BLOG CMS -->
+          <div class="dash-page" id="dash-page-blog">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Blog Articles (CMS)</h2>
+              <p class="dash-page-subtitle">Draft layout technical thoughts and writeups in a mini publisher.</p>
+            </div>
+            <div id="dash-page-blog-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 10: CONTACT -->
+          <div class="dash-page" id="dash-page-contact">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Contacts & Social networks</h2>
+              <p class="dash-page-subtitle">Add link anchors supporting LinkedIn, GitHub, Dribbble, or support emails.
+              </p>
+            </div>
+            <div id="dash-page-contact-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 11: APPEARANCE -->
+          <div class="dash-page" id="dash-page-appearance">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Appearance Customizer</h2>
+              <p class="dash-page-subtitle">Customize color variables, primary theme selectors, and text sizes.</p>
+            </div>
+            <div id="dash-page-appearance-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 12: TEMPLATE -->
+          <div class="dash-page" id="dash-page-template">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Switch Visual Templates</h2>
+              <p class="dash-page-subtitle">Alter structural layouts with one click without altering content.</p>
+            </div>
+            <div id="dash-page-template-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 13: DOMAIN -->
+          <div class="dash-page" id="dash-page-domain">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Publish and Save Configurations</h2>
+              <p class="dash-page-subtitle">Set your subdomain and save your portfolio to go live.</p>
+            </div>
+            <div id="dash-page-domain-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 14: ANALYTICS -->
+          <div class="dash-page" id="dash-page-analytics">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Detailed Visitor Analytics & Inbox</h2>
+              <p class="dash-page-subtitle">Visual impressions charts, geographic statistics, and client messages.</p>
+            </div>
+            <div id="dash-page-analytics-content"></div>
+          </div>
+
+          <!-- SUB-PAGE 15: SETTINGS -->
+          <div class="dash-page" id="dash-page-settings">
+            <div class="dash-page-header">
+              <h2 class="dash-page-title">Builder Configurations</h2>
+              <p class="dash-page-subtitle">Wipe client records, privacy indexing options, and export databases.</p>
+            </div>
+            <div id="dash-page-settings-content"></div>
+          </div>
+
+        </section>
+
+        <!-- LIVE PREVIEW SIMULATOR PANEL -->
+        <aside class="dash-preview-pane">
+          <div class="preview-pane-header">
+            <span class="preview-pane-title"><i class="fas fa-tv"></i> Live Preview Simulator</span>
+            <div class="preview-pane-controls">
+              <button class="preview-device-btn active" data-device="desktop"><i class="fas fa-desktop"></i></button>
+              <button class="preview-device-btn" data-device="mobile"><i class="fas fa-mobile-alt"></i></button>
+            </div>
+          </div>
+          <div class="preview-simulator-frame">
+            <div class="mock-device" id="mock-device-simulator">
+              <!-- Dynamically populated portfolio preview iframe -->
+              <iframe id="live-preview-iframe" class="mock-device-iframe" srcdoc=""></iframe>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </main>
+  </div>
+
+
+  <!-- ==================== VIEW 5: FULL SCREEN PUBLISHED VIEW ==================== -->
+  <div id="published-view" class="app-view">
+    <div style="position:fixed; top:20px; left:20px; z-index:99999; display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btn btn-secondary" onclick="switchView('dashboard')"
+        style="background:var(--bg-dark-card); backdrop-filter:blur(8px); box-shadow:var(--shadow-md);"><i
+          class="fas fa-arrow-left"></i> Return to Editor</button>
+    </div>
+    <div id="published-portfolio-iframe-wrapper" style="width:100%; height:100vh;">
+      <!-- Compiled live portfolio iframe -->
+    </div>
+  </div>
+
+
+  <!-- ==================== DASHBOARD STANDARDIZED MODAL CONTAINER ==================== -->
+  <div class="modal-overlay" id="dash-modal">
+    <div class="modal-card animated-slideup">
+      <div class="modal-header">
+        <span class="modal-title" id="modal-title-text">Modal Frame</span>
+        <span class="modal-close" onclick="closeDashboardModal()">&times;</span>
+      </div>
+      <div class="modal-body" id="modal-body-container">
+        <!-- Form elements appended dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeDashboardModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveDashboardModal()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== GLOBAL FLOATING DEVELOPMENT SWITCHER ==================== -->
+  <div class="dev-switcher">
+    <button class="dev-switch-btn active" data-view="landing">Marketing Landing</button>
+    <button class="dev-switch-btn" data-view="auth">Auth Pages</button>
+    <button class="dev-switch-btn" data-view="onboarding">Wizard Stepper</button>
+    <button class="dev-switch-btn" data-view="dashboard">App Dashboard</button>
+    <button class="dev-switch-btn" data-view="published">Published Site</button>
+  </div>
+
+
+  <!-- ==================== APPLICATION SCRIPTS BINDINGS ==================== -->
+  <script src="/portfolio.js?v=20"></script>
+  <script src="/app.js?v=20"></script>
+
+</body>
+
+</html>
