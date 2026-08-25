@@ -604,24 +604,61 @@ function showAuthPanel(type, noPush = false) {
   }
 
   function updateAuthContent() {
+    const emailGroup = document.getElementById('auth-email-group');
+    const passGroup = document.getElementById('auth-pass-group');
+    const otpGroup = document.getElementById('auth-otp-group');
+    const emailInput = document.getElementById('auth-email');
+    const passInput = document.getElementById('auth-pass');
+    const otpInput = document.getElementById('auth-otp');
+
     if (type === 'signup') {
       title.textContent = 'Create an account';
       subtitle.textContent = 'Start building your professional portfolio today.';
       submitBtn.textContent = 'Sign Up';
       toggleLink.innerHTML = 'Already have an account? <a href="#" onclick="showAuthPanel(\'login\')">Log in</a>';
       nameGroup.style.display = 'block';
+      if (emailGroup) emailGroup.style.display = 'block';
+      if (passGroup) passGroup.style.display = 'block';
+      if (otpGroup) otpGroup.style.display = 'none';
+      if (emailInput) emailInput.required = true;
+      if (passInput) passInput.required = true;
+      if (otpInput) otpInput.required = false;
     } else if (type === 'login') {
       title.textContent = 'Welcome back';
       subtitle.textContent = 'Sign in to edit your portfolio and check analytics.';
       submitBtn.textContent = 'Log In';
       toggleLink.innerHTML = 'New to the platform? <a href="#" onclick="showAuthPanel(\'signup\')">Create account</a>';
       nameGroup.style.display = 'none';
+      if (emailGroup) emailGroup.style.display = 'block';
+      if (passGroup) passGroup.style.display = 'block';
+      if (otpGroup) otpGroup.style.display = 'none';
+      if (emailInput) emailInput.required = true;
+      if (passInput) passInput.required = true;
+      if (otpInput) otpInput.required = false;
+    } else if (type === 'otp') {
+      title.textContent = 'Verify Email';
+      subtitle.textContent = 'Enter the 4-digit OTP sent to your email.';
+      submitBtn.textContent = 'Verify OTP';
+      toggleLink.innerHTML = '<a href="#" onclick="showAuthPanel(\'signup\')">Back to Sign Up</a>';
+      nameGroup.style.display = 'none';
+      if (emailGroup) emailGroup.style.display = 'none';
+      if (passGroup) passGroup.style.display = 'none';
+      if (otpGroup) otpGroup.style.display = 'block';
+      if (emailInput) emailInput.required = false;
+      if (passInput) passInput.required = false;
+      if (otpInput) otpInput.required = true;
     } else {
       title.textContent = 'Recover password';
       subtitle.textContent = 'Enter your email to receive recovery instructions.';
       submitBtn.textContent = 'Send Recovery Link';
       toggleLink.innerHTML = 'Remember password? <a href="#" onclick="showAuthPanel(\'login\')">Log in</a>';
       nameGroup.style.display = 'none';
+      if (emailGroup) emailGroup.style.display = 'block';
+      if (passGroup) passGroup.style.display = 'none';
+      if (otpGroup) otpGroup.style.display = 'none';
+      if (emailInput) emailInput.required = true;
+      if (passInput) passInput.required = false;
+      if (otpInput) otpInput.required = false;
     }
   }
 
@@ -632,10 +669,20 @@ function showAuthPanel(type, noPush = false) {
     const email = document.getElementById('auth-email').value;
     const password = document.getElementById('auth-pass').value;
     const name = type === 'signup' ? document.getElementById('auth-name').value : 'Demo User';
+    const otp = document.getElementById('auth-otp').value;
 
     try {
-      const endpoint = type === 'signup' ? `${API_URL}/auth/register` : `${API_URL}/auth/login`;
-      const body = type === 'signup' ? { name, email, password } : { email, password };
+      let endpoint, body;
+      if (type === 'signup') {
+        endpoint = `${API_URL}/auth/register`;
+        body = { name, email, password };
+      } else if (type === 'otp') {
+        endpoint = `${API_URL}/auth/verify-otp`;
+        body = { email, otp };
+      } else {
+        endpoint = `${API_URL}/auth/login`;
+        body = { email, password };
+      }
 
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -650,6 +697,12 @@ function showAuthPanel(type, noPush = false) {
       }
 
       const data = await res.json();
+      
+      if (type === 'signup') {
+        showAuthPanel('otp');
+        return;
+      }
+
       localStorage.setItem('portfolio_token', data.token);
 
       await loadState(); // Fetch existing portfolio
@@ -671,7 +724,7 @@ function showAuthPanel(type, noPush = false) {
       saveState();
       updateAuthUI();
 
-      if (type === 'signup') {
+      if (type === 'otp') {
         // Auto-fill the onboarding wizard with the name they just provided
         const obNameInput = document.getElementById('ob-name');
         if (obNameInput) {
@@ -923,7 +976,7 @@ let cachedPortfolioCssText = null;
 async function getPortfolioCssText() {
   if (cachedPortfolioCssText) return cachedPortfolioCssText;
   try {
-    const res = await fetch('./portfolio.css');
+    const res = await fetch('/portfolio.css');
     if (res.ok) {
       cachedPortfolioCssText = await res.text();
       return cachedPortfolioCssText;

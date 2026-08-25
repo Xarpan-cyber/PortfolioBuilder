@@ -259,7 +259,7 @@ function compilePortfolio(state) {
   
   <!-- Embedded Stylesheet links -->
   ${state._embeddedCss ? `<style>${state._embeddedCss}</style>` : ''}
-  <link rel="stylesheet" href="portfolio.css">
+  <link rel="stylesheet" href="/portfolio.css">
   
   <style>
     :root {

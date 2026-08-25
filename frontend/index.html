@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PortfolioBuilder | Create & Publish Your Custom Portfolio Website</title>
-  <link rel="icon" type="image/jpeg" href="./download.jpeg">
+  <link rel="icon" type="image/jpeg" href="/assets/download.jpeg">
 
   <!-- FontAwesome for UI & Social Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,7 +19,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <!-- Primary Builder Stylesheet -->
-  <link rel="stylesheet" href="./app.css?v=3">
+  <link rel="stylesheet" href="/app.css?v=3">
 </head>
 
 <body>
@@ -29,7 +29,7 @@
     <!-- Header Nav -->
     <header class="marketing-header">
       <div class="logo-container">
-        <img src="./download.jpeg" alt="Logo" style="height: 28px; width: auto; border-radius: 4px;">
+        <img src="/assets/download.jpeg" alt="Logo" style="height: 28px; width: auto; border-radius: 4px;">
         <span>Portfolio<span class="logo-text-glow">Builder</span></span>
       </div>
       <nav class="marketing-nav">
@@ -197,7 +197,7 @@
     <footer class="marketing-footer">
       <div class="footer-col">
         <div class="logo-container" style="font-size: 1.25rem;">
-          <img src="./download.jpeg" alt="Logo" style="height: 28px; width: auto; border-radius: 4px;">
+          <img src="/assets/download.jpeg" alt="Logo" style="height: 28px; width: auto; border-radius: 4px;">
           <span>Portfolio<span class="logo-text-glow">Builder</span></span>
         </div>
         <p class="footer-desc">Professional portfolio-builder platform tailored for developers, freelancers, and
@@ -244,13 +244,17 @@
             <label class="form-label">Full Name</label>
             <input type="text" id="auth-name" class="form-input" placeholder="Your Full Name" />
           </div>
-          <div class="form-group">
+          <div class="form-group" id="auth-email-group">
             <label class="form-label">Email Address</label>
             <input type="email" id="auth-email" class="form-input" placeholder="you@example.com" required />
           </div>
-          <div class="form-group">
+          <div class="form-group" id="auth-pass-group">
             <label class="form-label">Password</label>
             <input type="password" id="auth-pass" class="form-input" placeholder="••••••••" required />
+          </div>
+          <div class="form-group" id="auth-otp-group" style="display:none;">
+            <label class="form-label">OTP Verification Code</label>
+            <input type="text" id="auth-otp" class="form-input" placeholder="1234" />
           </div>
           <div class="form-row">
             <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
@@ -425,7 +429,7 @@
     <aside class="dash-sidebar">
       <div class="dash-sidebar-header">
         <div class="logo-container" style="font-size: 1.15rem;">
-          <img src="/download.jpeg" alt="Logo" style="height: 24px; width: auto; border-radius: 4px;">
+          <img src="/assets/download.jpeg" alt="Logo" style="height: 24px; width: auto; border-radius: 4px;">
           <span>Portfolio<span class="logo-text-glow" style="font-size:1.15rem;">Builder</span></span>
         </div>
       </div>
@@ -766,8 +770,8 @@
 
 
   <!-- ==================== APPLICATION SCRIPTS BINDINGS ==================== -->
-  <script src="./portfolio.js?v=20"></script>
-  <script src="./app.js?v=20"></script>
+  <script src="/portfolio.js?v=20"></script>
+  <script src="/app.js?v=20"></script>
 
 </body>
 
