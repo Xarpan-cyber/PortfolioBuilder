@@ -1,0 +1,16 @@
+{
+  "name": "portfolio-deployment",
+  "version": "1.0.0",
+  "description": "Root package.json for Railway deployment",
+  "scripts": {
+    "postinstall": "cd \"End s6\" && npm install",
+    "start": "cd \"End s6\" && npm start"
+  },
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "nodemailer": "^9.0.5"
+  }
+}
