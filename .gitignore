@@ -3,3 +3,4 @@ uploads/
 .env
 node_modules/
 .vscode/
+implementation_plan.md/
