@@ -20,6 +20,7 @@
 
   <!-- Primary Builder Stylesheet -->
   <link rel="stylesheet" href="./app.css?v=5">
+  <link rel="stylesheet" href="./portfolio.css?v=5">
 </head>
 
 <body>
@@ -40,7 +41,7 @@
         <a href="#showcase" class="nav-link">Showcase</a>
       </nav>
       <div id="nav-auth-section" style="display:flex; gap:15px; align-items:center;">
-        <a href="#" class="nav-link" onclick="showAuthPanel('login')">Log In</a>
+        <a href="#" class="nav-link" onclick="event.preventDefault(); showAuthPanel('login')">Log In</a>
         <button class="btn btn-primary btn-start">Build for Free</button>
       </div>
     </header>
@@ -233,40 +234,40 @@
   </div>
 
 
-    <!-- ==================== VIEW 2: AUTHENTICATION FLOW ==================== -->
-    <div id="auth-view" class="app-view auth-container">
-      <div class="auth-card animated-slideup">
-        <div class="auth-header">
-          <h2 id="auth-card-title">Create an account</h2>
-          <p id="auth-card-subtitle">Start building your professional portfolio today.</p>
+  <!-- ==================== VIEW 2: AUTHENTICATION FLOW ==================== -->
+  <div id="auth-view" class="app-view auth-container">
+    <div class="auth-card animated-slideup">
+      <div class="auth-header">
+        <h2 id="auth-card-title">Create an account</h2>
+        <p id="auth-card-subtitle">Start building your professional portfolio today.</p>
+      </div>
+      <form id="auth-form">
+        <div class="form-group" id="auth-name-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="auth-name" class="form-input" placeholder="Your Full Name" />
         </div>
-        <form id="auth-form">
-          <div class="form-group" id="auth-name-group">
-            <label class="form-label">Full Name</label>
-            <input type="text" id="auth-name" class="form-input" placeholder="Your Full Name" />
-          </div>
-          <div class="form-group" id="auth-email-group">
-            <label class="form-label">Email Address</label>
-            <input type="email" id="auth-email" class="form-input" placeholder="you@example.com" required />
-          </div>
-          <div class="form-group" id="auth-pass-group">
-            <label class="form-label">Password</label>
-            <input type="password" id="auth-pass" class="form-input" placeholder="••••••••" required />
-          </div>
-          <div class="form-group" id="auth-otp-group" style="display:none;">
-            <label class="form-label">OTP Verification Code</label>
-            <input type="text" id="auth-otp" class="form-input" placeholder="1234" />
-          </div>
-          <div class="form-row">
-            <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
-              <input type="checkbox" style="width:16px; height:16px;" checked />
-              Remember me
-            </label>
-            <a href="#" onclick="showAuthPanel('forgot')" style="color:var(--primary-color);">Forgot password?</a>
-          </div>
-          <button type="submit" class="btn btn-primary" id="auth-submit-btn" style="width:100%; margin-bottom:15px;">Sign
-            Up</button>
-        </form>
+        <div class="form-group" id="auth-email-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="auth-email" class="form-input" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group" id="auth-pass-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="auth-pass" class="form-input" placeholder="••••••••" required />
+        </div>
+        <div class="form-group" id="auth-otp-group" style="display:none;">
+          <label class="form-label">OTP Verification Code</label>
+          <input type="text" id="auth-otp" class="form-input" placeholder="1234" />
+        </div>
+        <div class="form-row">
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" style="width:16px; height:16px;" checked />
+            Remember me
+          </label>
+          <a href="#" onclick="event.preventDefault(); showAuthPanel('forgot')" style="color:var(--primary-color);">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary" id="auth-submit-btn" style="width:100%; margin-bottom:15px;">Sign
+          Up</button>
+      </form>
 
       <div class="oauth-divider">or continue with</div>
 
@@ -279,7 +280,7 @@
 
       <div id="auth-toggle-link"
         style="text-align:center; font-size:0.85rem; margin-top:30px; color:var(--text-muted);">
-        Already have an account? <a href="#" onclick="showAuthPanel('login')" style="color:var(--primary-color);">Log
+        Already have an account? <a href="#" onclick="event.preventDefault(); showAuthPanel('login')" style="color:var(--primary-color);">Log
           in</a>
       </div>
     </div>

@@ -340,22 +340,22 @@ function initThemeToggle() {
     toggleBtn.addEventListener('click', () => {
       const isLight = document.body.classList.toggle('light-theme');
 
-       if (isLight) {
-         icon.classList.remove('fa-moon');
-         icon.classList.add('fa-sun');
-         localStorage.setItem('portfolio_app_theme', 'light');
-         if (state && state.appearance) state.appearance.mode = 'light';
-       } else {
-         icon.classList.remove('fa-sun');
-         icon.classList.add('fa-moon');
-         localStorage.setItem('portfolio_app_theme', 'dark');
-         if (state && state.appearance) state.appearance.mode = 'dark';
-       }
-       // Persist and refresh preview
-       if (state) {
-         saveState();
-         updateLivePreview();
-       }
+      if (isLight) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+        localStorage.setItem('portfolio_app_theme', 'light');
+        if (state && state.appearance) state.appearance.mode = 'light';
+      } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+        localStorage.setItem('portfolio_app_theme', 'dark');
+        if (state && state.appearance) state.appearance.mode = 'dark';
+      }
+      // Persist and refresh preview
+      if (state) {
+        saveState();
+        updateLivePreview();
+      }
     });
   }
 }
@@ -475,12 +475,12 @@ function updateAuthUI() {
 
   if (state.auth && state.auth.loggedIn) {
     authSection.innerHTML = `
-      <a href="#" class="nav-link" onclick="switchView('dashboard')">Dashboard</a>
+      <a href="#" class="nav-link" onclick="event.preventDefault(); switchView('dashboard')">Dashboard</a>
       <button class="btn btn-primary" onclick="logout()">Log Out</button>
     `;
   } else {
     authSection.innerHTML = `
-      <a href="#" class="nav-link" onclick="showAuthPanel('login')">Log In</a>
+      <a href="#" class="nav-link" onclick="event.preventDefault(); showAuthPanel('login')">Log In</a>
       <button class="btn btn-primary btn-start">Build for Free</button>
     `;
     // Rebind the button event listener since it was replaced
@@ -562,16 +562,15 @@ function switchView(viewName, noPush = false) {
 
   // Update Browser URL
   if (!noPush && viewName !== 'auth' && viewName !== 'dashboard') {
-    window.history.pushState({ view: viewName }, '', `/${viewName === 'landing' ? '' : viewName}`);
+    window.history.pushState({ view: viewName }, '', `/#${viewName === 'landing' ? '' : viewName}`);
   }
 }
 
 // --- AUTHENTICATION FLOW ---
 function showAuthPanel(type, noPush = false) {
   switchView('auth', true);
-
   if (!noPush) {
-    window.history.pushState({ view: 'auth', type }, '', `/auth/${type}`);
+    window.history.pushState({ view: 'auth', type }, '', `/#auth/${type}`);
   }
 
   const card = document.querySelector('.auth-card');
@@ -617,7 +616,7 @@ function showAuthPanel(type, noPush = false) {
       title.textContent = 'Create an account';
       subtitle.textContent = 'Start building your professional portfolio today.';
       submitBtn.textContent = 'Sign Up';
-      toggleLink.innerHTML = 'Already have an account? <a href="#" onclick="showAuthPanel(\'login\')">Log in</a>';
+      toggleLink.innerHTML = 'Already have an account? <a href="#" onclick="event.preventDefault(); showAuthPanel(\'login\')">Log in</a>';
       nameGroup.style.display = 'block';
       if (emailGroup) emailGroup.style.display = 'block';
       if (passGroup) passGroup.style.display = 'block';
@@ -629,7 +628,7 @@ function showAuthPanel(type, noPush = false) {
       title.textContent = 'Welcome back';
       subtitle.textContent = 'Sign in to edit your portfolio and check analytics.';
       submitBtn.textContent = 'Log In';
-      toggleLink.innerHTML = 'New to the platform? <a href="#" onclick="showAuthPanel(\'signup\')">Create account</a>';
+      toggleLink.innerHTML = 'New to the platform? <a href="#" onclick="event.preventDefault(); showAuthPanel(\'signup\')">Create account</a>';
       nameGroup.style.display = 'none';
       if (emailGroup) emailGroup.style.display = 'block';
       if (passGroup) passGroup.style.display = 'block';
@@ -641,7 +640,7 @@ function showAuthPanel(type, noPush = false) {
       title.textContent = 'Verify Email';
       subtitle.textContent = 'Enter the 4-digit OTP sent to your email.';
       submitBtn.textContent = 'Verify OTP';
-      toggleLink.innerHTML = '<a href="#" onclick="showAuthPanel(\'signup\')">Back to Sign Up</a>';
+      toggleLink.innerHTML = '<a href="#" onclick="event.preventDefault(); showAuthPanel(\'signup\')">Back to Sign Up</a>';
       nameGroup.style.display = 'none';
       if (emailGroup) emailGroup.style.display = 'none';
       if (passGroup) passGroup.style.display = 'none';
@@ -653,7 +652,7 @@ function showAuthPanel(type, noPush = false) {
       title.textContent = 'Recover password';
       subtitle.textContent = 'Enter your email to receive recovery instructions.';
       submitBtn.textContent = 'Send Recovery Link';
-      toggleLink.innerHTML = 'Remember password? <a href="#" onclick="showAuthPanel(\'login\')">Log in</a>';
+      toggleLink.innerHTML = 'Remember password? <a href="#" onclick="event.preventDefault(); showAuthPanel(\'login\')">Log in</a>';
       nameGroup.style.display = 'none';
       if (emailGroup) emailGroup.style.display = 'block';
       if (passGroup) passGroup.style.display = 'none';
@@ -699,7 +698,7 @@ function showAuthPanel(type, noPush = false) {
       }
 
       const data = await res.json();
-      
+
       if (type === 'signup') {
         showAuthPanel('otp');
         return;
@@ -891,7 +890,7 @@ function switchDashboardTab(tabName, noPush = false) {
   activeDashboardTab = tabName;
 
   if (!noPush) {
-    window.history.pushState({ view: 'dashboard', tab: tabName }, '', `/dashboard/${tabName}`);
+    window.history.pushState({ view: 'dashboard', tab: tabName }, '', `/#dashboard/${tabName}`);
   }
 
   // Hide all sections, show active
@@ -2238,7 +2237,7 @@ function renderDomainSettings() {
         </div>
         <div style="margin-top:8px; font-size:0.8rem;">
           <i class="fas fa-link" style="color:var(--primary-color);"></i> Published address: 
-          <a href="#" onclick="switchView('published')" style="text-decoration:underline; font-weight:700; color:var(--primary-color);">
+          <a href="#" onclick="event.preventDefault(); switchView('published')" style="text-decoration:underline; font-weight:700; color:var(--primary-color);">
             http://${d.subdomain || 'yourname'}.portfoliobuilder.com
           </a>
         </div>
