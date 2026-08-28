@@ -48,7 +48,7 @@ router.post('/register', async (req, res) => {
     });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ message: 'Server error: ' + err.message });
   }
 });
 
@@ -91,7 +91,7 @@ router.post('/login', async (req, res) => {
     );
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ message: 'Server error: ' + err.message });
   }
 });
 
@@ -104,7 +104,7 @@ router.get('/me', auth, async (req, res) => {
     res.json(user);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ message: 'Server error: ' + err.message });
   }
 });
 
@@ -154,7 +154,7 @@ router.post('/verify-otp', async (req, res) => {
     );
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ message: 'Server error: ' + err.message });
   }
 });
 
