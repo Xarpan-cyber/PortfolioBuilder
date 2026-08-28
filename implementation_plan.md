@@ -4,11 +4,7 @@ We will build a premium, modern Portfolio Builder application with a responsive 
 
 ## User Review Required
 
-> [!IMPORTANT]
-> **MongoDB Cluster Connection**
-> We will use the MongoDB connection string provided in your request: `mongodb+srv://yt:passwordword@cluster0.nhn2eon.mongodb.net/portfolio_builder`.
-> We will store this in a `.env` file along with JWT secrets for secure login.
-> 
+
 > **Image Storage (ImageKit)**
 > We will implement support for ImageKit image/file uploads. If ImageKit credentials are not configured in the `.env` file, the application will automatically fallback to serving uploads locally or saving them as base64 URLs. This guarantees that the application works out-of-the-box.
 
