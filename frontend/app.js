@@ -203,11 +203,13 @@ window.addEventListener('DOMContentLoaded', async () => {
           return;
         }
 
-        // Intercept inputs, selects, textareas, and generic action buttons
+        // Intercept inputs, selects, textareas, generic action buttons, and div-based buttons
         if (e.target.closest('input') ||
           e.target.closest('textarea') ||
           e.target.closest('select') ||
-          e.target.closest('button')) {
+          e.target.closest('button') ||
+          e.target.closest('.theme-palette-btn') ||
+          e.target.closest('.template-pick')) {
           e.preventDefault();
           e.stopPropagation();
           triggerGuestAuthTransition();
@@ -266,7 +268,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     // Capture phase to intercept before inline handlers trigger
     dashboardView.addEventListener('click', enforceAuth, true);
     dashboardView.addEventListener('keydown', (e) => {
-      if (!state.auth.loggedIn && (e.target.closest('input') || e.target.closest('textarea') || e.target.closest('select'))) {
+      if (!state.auth.loggedIn && (e.target.closest('input') || e.target.closest('textarea') || e.target.closest('select') || e.target.closest('button') || e.target.closest('.theme-palette-btn') || e.target.closest('.template-pick'))) {
         e.preventDefault();
         e.stopPropagation();
         triggerGuestAuthTransition();
