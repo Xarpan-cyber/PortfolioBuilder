@@ -33,14 +33,26 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-// DB connection
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log('MongoDB connected successfully');
+const startServer = () => {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
-})
-.catch(err => {
-  console.error('MongoDB connection error:', err);
-});
+};
+
+const mongoUri = process.env.MONGO_URI;
+
+if (!mongoUri) {
+  console.warn('MONGO_URI is not set. Starting server without a database connection. Some features will be unavailable until MongoDB is configured.');
+  startServer();
+} else {
+  mongoose.connect(mongoUri)
+    .then(() => {
+      console.log('MongoDB connected successfully');
+      startServer();
+    })
+    .catch(err => {
+      console.error('MongoDB connection error:', err);
+      console.warn('Continuing without MongoDB connection. API routes requiring the database may fail until the connection is fixed.');
+      startServer();
+    });
+}
