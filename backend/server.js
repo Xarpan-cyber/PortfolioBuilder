@@ -48,8 +48,9 @@ async function connectDB() {
 if (require.main === module) {
   connectDB()
     .then(() => {
-      app.listen(PORT, () => {
+      app.listen(PORT, '127.0.0.1', () => {
         console.log(`Server running on port ${PORT}`);
+        console.log(`IMPORTANT: Open http://127.0.0.1:${PORT} in your browser (do not use localhost)`);
       });
     })
     .catch((err) => {
