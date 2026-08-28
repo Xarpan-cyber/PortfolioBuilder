@@ -21,7 +21,7 @@ app.use('/api/skills', require('./routes/skills'));
 app.use('/api/public', require('./routes/public'));
 
 // Serve static frontend
-const frontendPath = path.join(process.cwd(), 'frontend');
+const frontendPath = path.join(__dirname, '../frontend');
 app.use(express.static(frontendPath));
 
 // Serve local uploads
