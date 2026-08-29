@@ -2,6 +2,50 @@
  * Portfolio Builder - App Core JS
  */
 
+// Override default browser alert with a beautiful toast notification
+window.alert = function(msg) {
+  const existingToasts = document.querySelectorAll('.app-toast');
+  const offset = existingToasts.length * 60;
+  
+  const toast = document.createElement('div');
+  toast.className = 'app-toast';
+  toast.innerHTML = `<i class="fas fa-bell" style="color: var(--primary-color);"></i> <span>${msg}</span>`;
+  toast.style.cssText = `
+    position: fixed;
+    bottom: ${30 + offset}px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--surface);
+    color: var(--text-primary);
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10000;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+    font-size: 14px;
+    border: 1px solid rgba(255,255,255,0.05);
+  `;
+  document.body.appendChild(toast);
+  
+  // Animate in
+  requestAnimationFrame(() => {
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    toast.style.opacity = '1';
+  });
+  
+  // Animate out and remove
+  setTimeout(() => {
+    toast.style.transform = 'translateX(-50%) translateY(-20px)';
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+};
+
 // Default rich mockup data to make the app instantly interactive and visually appealing
 const DEFAULT_STATE = {
   auth: {
