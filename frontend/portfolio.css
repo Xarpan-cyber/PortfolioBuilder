@@ -17,6 +17,10 @@
   --pf-spacing: 1.5rem;
 }
 
+a {
+  text-decoration: underline;
+}
+
 /* Light Theme Overrides */
 body.light-theme {
   --pf-bg: #f8fafc;
