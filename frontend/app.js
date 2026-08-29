@@ -504,6 +504,17 @@ window.logout = function () {
   switchView('landing');
 };
 
+// OAuth sign-in functions
+window.signInWithGitHub = function () {
+  // Redirect to backend GitHub OAuth endpoint
+  window.location.href = `${API_URL}/auth/github`;
+};
+
+window.signInWithGoogle = function () {
+  // Redirect to backend Google OAuth endpoint
+  window.location.href = `${API_URL}/auth/google`;
+};
+
 // Router for switching views (SPA Model)
 function initRouter() {
   // Navigation Links
@@ -2562,6 +2573,10 @@ window.exportPortfolioJSON = function () {
  * PORTFOLIO ZIP PACKAGE DOWNLOADER
  */
 window.downloadPortfolioZip = async function () {
+  if (!state.auth.loggedIn) {
+    showAuthPanel('login');
+    return;
+  }
   try {
     const cssText = await getPortfolioCssText();
     state._embeddedCss = cssText;
@@ -2614,6 +2629,10 @@ Enjoy your new personal website!
  * STANDALONE SINGLE HTML FILE DOWNLOADER
  */
 window.downloadStandaloneHTML = async function () {
+  if (!state.auth.loggedIn) {
+    showAuthPanel('login');
+    return;
+  }
   const cssText = await getPortfolioCssText();
   state._embeddedCss = cssText;
   const compiledHtml = compilePortfolio(state);
