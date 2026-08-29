@@ -38,10 +38,13 @@ router.post('/register', async (req, res) => {
       { upsert: true, new: true }
     );
 
-    // Send verification email asynchronously
-    sendVerificationEmail(email, otp).catch(emailErr => {
-      console.error("Background email sending failed:", emailErr.message);
-    });
+    // Send verification email synchronously (AWAIT required for Vercel Serverless!)
+    try {
+      await sendVerificationEmail(email, otp);
+    } catch (emailErr) {
+      console.error("Email sending failed:", emailErr.message);
+      return res.status(500).json({ message: 'Failed to send OTP email. Please check credentials or try again later.' });
+    }
 
     res.status(201).json({
       message: "OTP sent to your email. Please verify to complete registration."
