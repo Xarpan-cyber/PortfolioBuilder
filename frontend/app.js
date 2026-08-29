@@ -683,6 +683,11 @@ function showAuthPanel(type, noPush = false) {
     const name = type === 'signup' ? document.getElementById('auth-name').value : 'Demo User';
     const otp = document.getElementById('auth-otp').value;
 
+    const submitBtn = document.getElementById('auth-submit-btn');
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
+
     try {
       let endpoint, body;
       if (type === 'signup') {
@@ -749,6 +754,9 @@ function showAuthPanel(type, noPush = false) {
     } catch (err) {
       console.error(err);
       alert('Network error during authentication');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
     }
   };
 }
