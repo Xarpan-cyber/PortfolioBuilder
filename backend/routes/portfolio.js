@@ -9,7 +9,9 @@ const Portfolio = require('../models/Portfolio');
 const User = require('../models/User');
 
 // Configure local uploads directory fallback
-const uploadDir = path.join(__dirname, '../uploads');
+// Use /tmp for serverless environments (like Vercel) as the rest of the filesystem is read-only
+const isVercel = process.env.VERCEL === '1';
+const uploadDir = isVercel ? '/tmp/uploads' : path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
