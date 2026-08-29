@@ -276,18 +276,18 @@ window.addEventListener('DOMContentLoaded', async () => {
     }, true);
   }
 
-  // Parse URL path to determine initial view
-  const path = window.location.pathname;
-  if (path.startsWith('/dashboard')) {
-    const tab = path.split('/')[2] || 'overview';
+  // Parse URL hash to determine initial view
+  const hash = window.location.hash;
+  if (hash.startsWith('#dashboard')) {
+    const tab = hash.split('/')[1] || 'overview';
     switchView('dashboard', true);
     switchDashboardTab(tab, true);
-  } else if (path.startsWith('/auth')) {
-    const type = path.includes('signup') ? 'signup' : 'login';
+  } else if (hash.startsWith('#auth')) {
+    const type = hash.includes('signup') ? 'signup' : (hash.includes('otp') ? 'otp' : 'login');
     showAuthPanel(type, true);
-  } else if (path.startsWith('/onboarding')) {
+  } else if (hash.startsWith('#onboarding')) {
     switchView('onboarding', true);
-  } else if (path.startsWith('/published')) {
+  } else if (hash.startsWith('#published')) {
     switchView('published', true);
   } else {
     switchView('landing', true);
@@ -295,17 +295,17 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   // Handle browser back/forward buttons
   window.addEventListener('popstate', (e) => {
-    const p = window.location.pathname;
-    if (p.startsWith('/dashboard')) {
-      const tab = p.split('/')[2] || 'overview';
+    const hash = window.location.hash;
+    if (hash.startsWith('#dashboard')) {
+      const tab = hash.split('/')[1] || 'overview';
       switchView('dashboard', true);
       switchDashboardTab(tab, true);
-    } else if (p.startsWith('/auth')) {
-      const type = p.includes('signup') ? 'signup' : 'login';
+    } else if (hash.startsWith('#auth')) {
+      const type = hash.includes('signup') ? 'signup' : (hash.includes('otp') ? 'otp' : 'login');
       showAuthPanel(type, true);
-    } else if (p.startsWith('/onboarding')) {
+    } else if (hash.startsWith('#onboarding')) {
       switchView('onboarding', true);
-    } else if (p.startsWith('/published')) {
+    } else if (hash.startsWith('#published')) {
       switchView('published', true);
     } else {
       switchView('landing', true);

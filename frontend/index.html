@@ -241,7 +241,7 @@
         <h2 id="auth-card-title">Create an account</h2>
         <p id="auth-card-subtitle">Start building your professional portfolio today.</p>
       </div>
-      <form id="auth-form">
+      <form id="auth-form" action="javascript:void(0);">
         <div class="form-group" id="auth-name-group">
           <label class="form-label">Full Name</label>
           <input type="text" id="auth-name" class="form-input" placeholder="Your Full Name" />
@@ -272,9 +272,9 @@
       <div class="oauth-divider">or continue with</div>
 
       <div class="oauth-buttons">
-        <button class="btn-oauth" onclick="document.getElementById('auth-form').dispatchEvent(new Event('submit'))"><i
+        <button type="button" class="btn-oauth" onclick="alert('OAuth not implemented yet')"><i
             class="fab fa-github"></i> GitHub</button>
-        <button class="btn-oauth" onclick="document.getElementById('auth-form').dispatchEvent(new Event('submit'))"><i
+        <button type="button" class="btn-oauth" onclick="alert('OAuth not implemented yet')"><i
             class="fab fa-google"></i> Google</button>
       </div>
 
