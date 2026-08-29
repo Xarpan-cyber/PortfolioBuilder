@@ -772,10 +772,11 @@ function showAuthPanel(type, noPush = false) {
       state.auth.email = email;
       state.auth.name = data.user.name || name;
 
-      // If creating a brand new portfolio, replace 'Alex Rivera' defaults with the actual user's name
+      // If creating a brand new portfolio, replace 'Alex Rivera' defaults with the actual user's details
       if (!state._id) {
         const cleanName = state.auth.name || 'My';
         state.profile.name = cleanName;
+        state.contactEmail = state.auth.email; // Automatically use their login email for contact!
         state.domain.subdomain = cleanName.toLowerCase().replace(/[^a-z0-9]/g, '');
         state.profile.resumeName = `${cleanName.replace(/\s+/g, '_')}_Resume.pdf`;
         state.onboarding.tempDetails.name = cleanName;
