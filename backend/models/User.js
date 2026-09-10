@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: false
   },
   portfolios: [{
     type: mongoose.Schema.Types.ObjectId,
