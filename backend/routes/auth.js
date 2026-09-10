@@ -7,6 +7,9 @@ const User = require('../models/User');
 const PendingUser = require('../models/PendingUser');
 const auth = require('../middleware/auth');
 const sendVerificationEmail = require('../services/emailService');
+const { OAuth2Client } = require('google-auth-library');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // @route   POST api/auth/register
 // @desc    Register a user
@@ -158,6 +161,62 @@ router.post('/verify-otp', async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ message: 'Server error: ' + err.message });
+  }
+});
+
+// @route   POST api/auth/google
+// @desc    Authenticate user with Google
+// @access  Public
+router.post('/google', async (req, res) => {
+  const { idToken } = req.body;
+
+  try {
+    if (!idToken) {
+      return res.status(400).json({ message: 'No Google ID token provided' });
+    }
+
+    // Verify token
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    
+    const payload = ticket.getPayload();
+    const { email, name, sub: googleId } = payload;
+
+    // Check if user exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create a new user without a password since they use Google
+      user = new User({
+        name,
+        email,
+        portfolios: [],
+        isOAuth: true // optional marker
+      });
+      await user.save();
+    }
+
+    // Generate JWT
+    const jwtPayload = {
+      user: {
+        id: user.id
+      }
+    };
+
+    jwt.sign(
+      jwtPayload,
+      process.env.JWT_SECRET || 'portfolio_jwt_secret_token_19846372834',
+      { expiresIn: '7d' },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token, user: { id: user.id, name: user.name, email: user.email }, message: "Google authentication successful" });
+      }
+    );
+  } catch (err) {
+    console.error("Google Auth Error:", err.message);
+    res.status(500).json({ message: 'Google Authentication failed: ' + err.message });
   }
 });
 
