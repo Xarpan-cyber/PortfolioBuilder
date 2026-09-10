@@ -21,6 +21,9 @@
   <!-- Primary Builder Stylesheet -->
   <link rel="stylesheet" href="./app.css">
   <link rel="stylesheet" href="./portfolio.css">
+
+  <!-- Google Identity Services for OAuth -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
@@ -269,6 +272,14 @@
         <button type="submit" class="btn btn-primary" id="auth-submit-btn" style="width:100%; margin-bottom:15px;">Sign
           Up</button>
       </form>
+
+      <div class="auth-divider" style="display:flex; align-items:center; text-align:center; margin: 20px 0; color: var(--text-muted); font-size: 0.85rem;">
+        <hr style="flex:1; border:none; border-top:1px solid var(--border-color); margin-right:10px;">
+        OR
+        <hr style="flex:1; border:none; border-top:1px solid var(--border-color); margin-left:10px;">
+      </div>
+      
+      <div id="google-auth-btn-container" style="display:flex; justify-content:center; margin-bottom: 15px; width: 100%;"></div>
 
       <div id="auth-toggle-link"
         style="text-align:center; font-size:0.85rem; margin-top:30px; color:var(--text-muted);">
