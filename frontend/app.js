@@ -3,10 +3,10 @@
  */
 
 // Override default browser alert with a beautiful toast notification
-window.alert = function(msg) {
+window.alert = function (msg) {
   const existingToasts = document.querySelectorAll('.app-toast');
   const offset = existingToasts.length * 60;
-  
+
   const toast = document.createElement('div');
   toast.className = 'app-toast';
   toast.innerHTML = `<i class="fas fa-bell" style="color: var(--primary-color);"></i> <span>${msg}</span>`;
@@ -31,13 +31,13 @@ window.alert = function(msg) {
     border: 1px solid rgba(255,255,255,0.05);
   `;
   document.body.appendChild(toast);
-  
+
   // Animate in
   requestAnimationFrame(() => {
     toast.style.transform = 'translateX(-50%) translateY(0)';
     toast.style.opacity = '1';
   });
-  
+
   // Animate out and remove
   setTimeout(() => {
     toast.style.transform = 'translateX(-50%) translateY(-20px)';
@@ -229,6 +229,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   initContactMessageListener();
 
   updateAuthUI();
+  initGoogleAuth();
 
   // Guest Demo Interception: Prevent edits if not logged in
   const dashboardView = document.getElementById('dashboard-view');
@@ -554,10 +555,107 @@ window.signInWithGitHub = function () {
   window.location.href = `${API_URL}/auth/github`;
 };
 
-window.signInWithGoogle = function () {
-  // Redirect to backend Google OAuth endpoint
-  window.location.href = `${API_URL}/auth/google`;
-};
+function initGoogleAuth() {
+  if (typeof google !== 'undefined' && google.accounts) {
+    google.accounts.id.initialize({
+      client_id: '322713297600-7mm66lcesrfpuv2jvmdgfn15psj4gre0.apps.googleusercontent.com',
+      callback: handleGoogleCredentialResponse
+    });
+    const container = document.getElementById('google-auth-btn-container');
+    if (container) {
+      google.accounts.id.renderButton(
+        container,
+        { theme: 'outline', size: 'large', type: 'standard', text: 'continue_with' }
+      );
+    }
+  } else {
+    setTimeout(initGoogleAuth, 500);
+  }
+}
+
+async function handleGoogleCredentialResponse(response) {
+  try {
+    const res = await fetch(`${API_URL}/auth/google`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken: response.credential })
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      alert(data.message || 'Google Authentication failed');
+      return;
+    }
+
+    const data = await res.json();
+    localStorage.setItem('portfolio_token', data.token);
+
+    await loadState();
+
+    state.auth.loggedIn = true;
+    state.auth.email = data.user.email;
+    state.auth.name = data.user.name;
+
+    if (!state._id) {
+      const cleanName = state.auth.name || 'My';
+      state.profile.name = cleanName;
+      state.contactEmail = state.auth.email;
+      state.domain.subdomain = cleanName.toLowerCase().replace(/[^a-z0-9]/g, '');
+      state.profile.resumeName = `${cleanName.replace(/\s+/g, '_')}_Resume.pdf`;
+      state.onboarding.tempDetails.name = cleanName;
+    }
+
+    saveState();
+    updateAuthUI();
+
+    // Show success message and wait 1.5s before redirecting
+    showLoginSuccessAndRedirect('dashboard');
+  } catch (err) {
+    console.error(err);
+    alert('Network error during Google authentication');
+  }
+}
+
+function showLoginSuccessAndRedirect(targetView) {
+  const title = document.getElementById('auth-card-title');
+  const subtitle = document.getElementById('auth-card-subtitle');
+  const form = document.getElementById('auth-form');
+  const divider = document.querySelector('.auth-divider');
+  const googleBtn = document.getElementById('google-auth-btn-container');
+  const toggleLink = document.getElementById('auth-toggle-link');
+  const card = document.querySelector('.auth-card');
+
+  // Add a nice pop effect to the card
+  if (card) {
+    card.style.transform = 'scale(1.02)';
+    card.style.transition = 'transform 0.3s ease-out';
+  }
+
+  if (title) title.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981;"></i> Authentication Successful';
+  if (subtitle) subtitle.textContent = 'Preparing your workspace...';
+  if (form) form.style.opacity = '0';
+  if (divider) divider.style.opacity = '0';
+  if (googleBtn) googleBtn.style.opacity = '0';
+  if (toggleLink) toggleLink.style.opacity = '0';
+
+  setTimeout(() => {
+    if (form) form.style.display = 'none';
+    if (divider) divider.style.display = 'none';
+    if (googleBtn) googleBtn.style.display = 'none';
+    if (toggleLink) toggleLink.style.display = 'none';
+  }, 300);
+
+  setTimeout(() => {
+    // Revert everything for the next time the modal is opened
+    if (form) { form.style.display = 'block'; form.style.opacity = '1'; }
+    if (divider) { divider.style.display = 'flex'; divider.style.opacity = '1'; }
+    if (googleBtn) { googleBtn.style.display = 'flex'; googleBtn.style.opacity = '1'; }
+    if (toggleLink) { toggleLink.style.display = 'block'; toggleLink.style.opacity = '1'; }
+    if (card) card.style.transform = 'none';
+
+    switchView(targetView);
+  }, 1600);
+}
 
 // Router for switching views (SPA Model)
 function initRouter() {
@@ -792,9 +890,9 @@ function showAuthPanel(type, noPush = false) {
         if (obNameInput) {
           obNameInput.value = state.auth.name;
         }
-        switchView('onboarding');
+        showLoginSuccessAndRedirect('onboarding');
       } else {
-        switchView('dashboard');
+        showLoginSuccessAndRedirect('dashboard');
       }
     } catch (err) {
       console.error(err);
