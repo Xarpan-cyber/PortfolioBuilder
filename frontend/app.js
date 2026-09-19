@@ -1022,9 +1022,34 @@ function getInitials(name) {
 // --- CORE DASHBOARD INTERFACE MANAGER ---
 function setupDashboard() {
   // Top Navbar user detail sync
-  document.getElementById('nav-user-name').textContent = state.profile.name || 'User';
-  document.getElementById('user-avatar-init').textContent = getInitials(state.profile.name);
-  document.getElementById('nav-user-badge').textContent = state.analytics.messages.filter(m => !m.read).length > 0 ? 'PRO' : 'FREE';
+  const navUserName = document.getElementById('nav-user-name');
+  if (navUserName) navUserName.textContent = state.profile.name || 'User';
+
+  const userAvatarInit = document.getElementById('user-avatar-init');
+  if (userAvatarInit) userAvatarInit.textContent = getInitials(state.profile.name);
+
+  const profileImg = document.getElementById('profile-img');
+  if (profileImg) profileImg.src = state.profile.photo || './assets/download.jpeg';
+
+  const navUserBadge = document.getElementById('nav-user-badge');
+  if (navUserBadge) navUserBadge.textContent = state.analytics.messages.filter(m => !m.read).length > 0 ? 'PRO' : 'FREE';
+
+  const profileUpload = document.getElementById('profile-upload');
+  if (profileUpload && profileImg) {
+    profileUpload.onchange = (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+          state.profile.photo = evt.target.result;
+          profileImg.src = evt.target.result;
+          saveState();
+          updateLivePreview();
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+  }
 
   // Render sidebar menu interactions
   const links = document.querySelectorAll('.dash-menu-link');
